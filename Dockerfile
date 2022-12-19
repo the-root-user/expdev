@@ -50,7 +50,4 @@ RUN wget https://github.com/io12/pwninit/releases/download/3.3.0/pwninit -O /usr
 EXPOSE 22
 
 # Run bash when the container launches
-CMD ["tmux"] 
-
-# Build
-# docker build -t expdev .
+CMD ["tmux"]
