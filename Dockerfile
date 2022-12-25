@@ -30,9 +30,9 @@ RUN wget https://raw.githubusercontent.com/the-root-user/dotfiles-and-other-conf
     chsh -s /usr/bin/fish; \
     # since gets interpreted by /bin/sh, -e only makes things worse
     echo "set number\nsyntax on\ncolorscheme peachpuff\nset cursorline\nset tabstop=4\nset expandtab\nset autoindent\nset nobackup\nset ignorecase\nset showmode" >> ~/.vimrc; \
-    echo "alias l='ls -CF'\nalias la='ls -A'\nalias lla='l -al'\nalias aslr_check='cat /proc/sys/kernel/randomize_va_space'" >> ~/.config/fish/config.fish
+    mkdir -p ~/.config/fish/ && echo "alias l='ls -CF'\nalias la='ls -A'\nalias lla='l -al'\nalias aslr_check='cat /proc/sys/kernel/randomize_va_space'" >> ~/.config/fish/config.fish
     # docker container cannot overwrite kernel stuff
-    
+
 # Additional Python packages
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install \
@@ -41,6 +41,7 @@ RUN python3 -m pip install \
 
 # Additional tools
 RUN git clone https://github.com/pwndbg/pwndbg.git ~/.pwndbg && cd ~/.pwndbg && \
+    sed -i "s/sudo //" ./setup.sh && \
     DEBIAN_FRONTEND=noninteractive ./setup.sh
     # RUN echo "source ~/.pwndbg/gdbinit.py" >> ~/.gdbinit
 RUN wget https://github.com/io12/pwninit/releases/download/3.3.0/pwninit -O /usr/bin/pwninit && chmod +x /usr/bin/pwninit
