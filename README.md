@@ -1,34 +1,41 @@
 # expdev
-Docker container for Exploit Dev
+Docker container for Exploit Development and Binary Analysis.
 
-Based on Ubuntu
+Based on Ubuntu 22.04 LTS (Jammy Jellyfish).
 
-Contains 🔻
+## Features & Included Tools 🔻
 
-Tools:
-- gdb + pwndbg
-- pwntools
-- ropper
-- patchelf
-- pwninit
-- capstone
-- unicorn
+### Exploit Development & Debugging
+- **GDB + pwndbg** (enhanced GDB for exploit developers)
+- **pwntools** (CTF framework and exploit development library)
+- **ropper** (ROP gadget finder)
+- **patchelf** (utility for modifying ELF executables)
+- **pwninit** (automate starting pwn CTF challenges)
+- **capstone** & **unicorn** (disassembly and emulation engines)
+- **strace** & **ltrace** (system and library call tracing)
+- **nasm** & **binutils** (assembler and binary utilities)
+- **file** (file type identification)
 
-Others:
-- python 2 & 3
-- vim (with some configs)
-- fish shell
-- tmux (also configured)
+### Languages & Environment
+- **Python 2 & 3** (with `pip`, `setuptools`, and header files)
+- **build-essential** (GCC, G++, Make)
+- **socat** & **netcat** (networking utilities)
+- **fish shell** (preconfigured aliases for ASLR check, ls formatting)
+- **tmux** (preconfigured dotfile)
+- **vim** (configured `.vimrc`)
 
 ## Build
 
-With the Dockerfile in working directory, run:
+With the `Dockerfile` in the current working directory, run:
 ```sh
 docker build -t expdev .
 ```
 
 ## Run
 
+Run interactively with your current working directory mounted to `/app`:
+```sh
+docker run --rm -it --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v "$PWD":/app expdev
 ```
-docker run --rm -it -v $PWD:/app expdev
-```
+
+> **Note:** `--cap-add=SYS_PTRACE --security-opt seccomp=unconfined` is recommended so GDB and debugging tools can attach to processes inside the container without restriction.
